@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KontrakanController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('kontrakan', [KontrakanController::class, 'store']);
+
+Route::group(['prefix' => 'v1'], function(){
+    Route::post('login', [UserController::class, 'login']);
+    Route::post('register', [UserController::class, 'register']);
+    Route::get('logout', [UserController::class, 'logout'])->middleware('auth:api');
+   });
