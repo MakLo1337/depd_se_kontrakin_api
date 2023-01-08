@@ -68,5 +68,28 @@ class UserController extends Controller
           'message' => 'Unable to Logout',
          ]);
         }
-       }
+    }
+
+    public function show(Request $request){
+        return response()->json([
+            'success' => true,
+            'message' => 'Valid User',
+            'data' => User::where('id', $request->userID)->get()->first(),
+        ]);
+    }
+
+    public function update(Request $request){
+
+        $data = User::findOrFail($request->userID);
+        $data->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Valid User',
+            'data' => $data,
+        ]);
+    }
 }

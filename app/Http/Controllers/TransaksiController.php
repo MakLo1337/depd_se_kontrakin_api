@@ -84,6 +84,56 @@ class TransaksiController extends Controller
         ]);
     }
 
+    public function lesseeOngoing(Request $request){
+        $lesseeID = $request->lesseeID;
+        $transaksi = transaksi::join('users', 'users.id', '=', 'transaksis.lessorID')
+            ->join('kontrakans', 'kontrakans.id', '=', 'transaksis.kontrakanID')
+            ->where('transaksis.lesseeID', $lesseeID)->where('approved', 1)
+            ->where('endDate', '>', Carbon::now())
+            ->select("transaksis.id",
+            "lesseeID",
+            "lessorID",
+            "startDate",
+            "endDate",
+            "rentDuration",
+            "approved",
+            "name",
+            "phone",
+            "Address",
+            "Image",)
+            ->get();        
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Valid Transaksi',
+            'data' => $transaksi,
+        ]);
+    }
+    public function lesseeFinished(Request $request){
+        $lessorID = $request->lesseeID;
+        $transaksi = transaksi::where('lesseeID', $lessorID)->where('endDate', '<', Carbon::now())
+            ->join('users', 'users.id', '=', 'transaksis.lessorID')
+            ->join('kontrakans', 'kontrakans.id', '=', 'transaksis.kontrakanID')
+            ->select("transaksis.id",
+            "lesseeID",
+            "lessorID",
+            "startDate",
+            "endDate",
+            "rentDuration",
+            "approved",
+            "name",
+            "phone",
+            "Address",
+            "Image",)
+            ->get();   
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Valid Transaksi',
+            'data' => $transaksi,
+        ]);
+    }
+
     public function setApprove(Request $request){
         $id = $request->id;
 
@@ -128,8 +178,9 @@ class TransaksiController extends Controller
             'lesseeID' => $request->lesseeID,
             'lessorID' => $request->lessorID,
             'startDate' => $request->startDate,
-            'endDate' => Carbon::parse($request['startDate'])->addMonth($request->rentDuration)->toDateString(),
+            'endDate' => Carbon::parse($request['startDate'])->addYear($request->rentDuration)->toDateString(),
             'rentDuration' => $request->rentDuration,
+            'kontrakanID' => $request->kontrakanID,
             'approved' => 0,
         ]);
         

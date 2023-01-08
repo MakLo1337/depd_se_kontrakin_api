@@ -4,6 +4,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\KontrakanController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,8 @@ Route::group(['prefix' => 'transaction'], function(){
     Route::post('lessorpending', [TransaksiController::class, 'lessorPending']);
     Route::post('lessorongoing', [TransaksiController::class, 'lessorOngoing']);
     Route::post('lessorfinished', [TransaksiController::class, 'lessorFinished']);
+    Route::post('lesseeongoing', [TransaksiController::class, 'lesseeOngoing']);
+    Route::post('lesseefinished', [TransaksiController::class, 'lesseeFinished']);
     Route::post('setapprove', [TransaksiController::class, 'setApprove']);
     Route::post('store', [TransaksiController::class, 'store']);
     Route::post('show', [TransaksiController::class, 'show']);
@@ -44,8 +47,13 @@ Route::group(['prefix' => 'transaction'], function(){
 Route::get('province', [CityController::class, 'getProvince']);
 Route::post('city', [CityController::class, 'getCity']);
 
+Route::post('getwishlist', [WishlistController::class, 'index']);
+Route::post('setwishlist', [WishlistController::class, 'store']);
+
 Route::group(['prefix' => 'v1'], function(){
     Route::post('login', [UserController::class, 'login']);
     Route::post('register', [UserController::class, 'register']);
     Route::get('logout', [UserController::class, 'logout'])->middleware('auth:api');
+    Route::post('show', [UserController::class, 'show']);
+    Route::post('update', [UserController::class, 'update']);
 });
