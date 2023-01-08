@@ -29,7 +29,7 @@ class WishlistController extends Controller
 
     public function delete(Request $request)
     {
-        $kontrakan = Kontrakan::findOrFail($request->kontrakanID);
+        $kontrakan = Wishlist::findOrFail($request->kontrakanID);
         $kontrakan->delete();
 
         return response()->json([
