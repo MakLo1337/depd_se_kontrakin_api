@@ -12,9 +12,12 @@ class Kontrakan extends Model
     protected $table = 'kontrakans';
 
     protected $fillable = ['UserID',
+    'Address',
     'City',
     'Province',
     'Price_per_year',
     'Image',
-    'Description',];
+    'Description',
+    'Active',
+    'MinimumRent',];
 }

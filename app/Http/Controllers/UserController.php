@@ -17,6 +17,7 @@ class UserController extends Controller
           'success' => true,
           'token' => $success,
           'user' => $user,
+          'role' => Auth::user()->role,
          ]);
         } else{
          return response()->json([
@@ -32,6 +33,8 @@ class UserController extends Controller
          'name' => ['required', 'string', 'max:255'],
          'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
          'password' => ['required', 'string', 'min:8'],
+         'role' => ['required', 'string'],
+         'phone' => ['required', 'string', 'max:255'],
         ]);
         if($validator->fails()){
          return response()->json([
@@ -46,7 +49,8 @@ class UserController extends Controller
         return response()->json([
          'success' => true,
          'token' => $success,
-         'user' => $user
+         'user' => $user,
+         'role' => $request->role,
         ]);
     }
 

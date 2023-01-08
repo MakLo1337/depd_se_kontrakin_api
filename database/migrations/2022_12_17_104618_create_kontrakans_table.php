@@ -16,11 +16,14 @@ return new class extends Migration
         Schema::create('kontrakans', function (Blueprint $table) {
             $table->id();
             $table->integer('UserID');
+            $table->text('Address');
             $table->text('City');
             $table->text('Province');
             $table->integer('Price_per_year');
             $table->text('Image');
             $table->text('Description');
+            $table->integer('Active');
+            $table->integer('MinimumRent');
             $table->timestamps();
         });
     }
